@@ -22,6 +22,7 @@ begin
   Timeout.timeout(5) do
     _, _, hue_ip, _ = loop do
       message, packet = udp.recvfrom(1024)
+      # TODO: improve this. How do we know it’s a Hue hub?
       break packet if message =~ /description\.xml/
     end
   end
