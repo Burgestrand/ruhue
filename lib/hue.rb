@@ -1,17 +1,25 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
 
-require 'bundler/setup'
-Bundler.require
-
+require 'httpi'
+require 'nokogiri'
 require 'socket'
 require 'timeout'
 require 'json'
 
 class Hue
   TimeoutError = Class.new(TimeoutError)
+  APIError = Class.new(StandardError)
 
   class << self
+    # Search for a Hue hub, with configurable timeout.
+    #
+    # This sends out a broadcast packet with UDP, and waits for
+    # a response from the Hue hub.
+    #
+    # @param [Integer] timeout seconds until giving up
+    # @raise [Hue::TimeoutError] in case timeout is reached
+    # @return [Hub]
     def discover(timeout = 5)
       socket  = UDPSocket.new(Socket::AF_INET)
       payload = []
@@ -29,8 +37,6 @@ class Hue
           return new(hue_ip) if message =~ /description\.xml/
         end
       end
-    rescue TimeoutError
-      nil
     end
   end
 
@@ -54,26 +60,49 @@ class Hue
   # GET a path of the Hue.
   #
   # @param [String] path
-  # @return [HTTPI::Response]
+  # @return [Hue::Response]
   def get(path)
-    HTTPI.get(url(path))
+    request(:get, path)
   end
 
-  # GET a path of the Hue.
+  # POST a payload to the Hue.
   #
   # @param [String] path
   # @param data json-serializable
-  # @return [HTTPI::Response]
+  # @return [Hue::Response]
   def post(path, data)
-    HTTPI.post(url(path), JSON.dump(data))
+    request(:post, path, JSON.dump(data))
+  end
+
+  # PUT a payload to the Hue.
+  #
+  # @param [String] path
+  # @param data json-serializable
+  # @return [Hue::Response]
+  def put(path, data)
+    request(:put, path, JSON.dump(data))
+  end
+
+  # DELETE a resource.
+  #
+  # @param [String] path
+  # @return [Hue::Response]
+  def delete(path)
+    request(:delete, path)
   end
 
   # @return [Nokogiri::XML] Hue device description
   def description
     Nokogiri::XML(get("/description.xml").body)
   end
+
+  protected
+
+  def request(method, path, *args)
+    response = HTTPI.send(method, url(path), *args)
+    Hue::Response.new(response)
+  end
 end
 
-hue = Hue.discover
-
-binding.pry
+require 'hue/response'
+require 'hue/client'

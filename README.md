@@ -2,30 +2,34 @@
 
 So far, mere documentations of my findings when sniffing the Hue.
 
-## Mailing list
-
 There is a mailing list, dedicated to discussions and questions about hacking the
 Philips Hue and related protocols.
 
-- Web interface: <https://groups.google.com/d/forum/hue-hackers>
-- E-mail address: <hue-hackers@googlegroups.com>
+- Mailing list web interface: <https://groups.google.com/d/forum/hue-hackers>
+- Mailing list e-mail address: <hue-hackers@googlegroups.com>
 
-## Resources
-Information about Hue hacking resources, and my personal experiences with them.
+Other link resources:
+- [Hack the Hue](http://rsmck.co.uk/hue)
+- [A Day with Philips Hue](http://www.nerdblog.com/2012/10/a-day-with-philips-hue.html?showComment=1352172383498)
 
-### [Hack the Hue](http://rsmck.co.uk/hue)
+## Console
 
-My initial attempts at replicating his findings proved unsuccessful. However,
-I was given an example JSON payload via e-mail, and it turns out the username
-has some kind of length restriction.
+There is a console script in this repository, written by @Burgestrand as the
+documentation effort travels further. It is written in Ruby, and only supports
+Ruby 1.9.x and newer. You may start the console with the following:
 
-- “adamgamble” is accepted.
-- “adamgam” is not accepted.
+1. Install bundler: `gem install bundler`
+2. Install console script dependencies: `bundle install`
+3. Run the console script: `ruby console.rb`
 
-### [A Day with Philips Hue](http://www.nerdblog.com/2012/10/a-day-with-philips-hue.html?showComment=1352172383498)
+You’ll be dropped into a pry prompt (similar to IRB), with access to the following
+local variables:
 
-Nothing to say here yet. Some new information in comparison to Hack the Hue,
-but the API documentation is not as complete.
+- hue — a Hue instance, documented in `lib/hue.rb`
+- client — a Hue::Client, documented in `lib/hue/client.rb`
+
+Once the documentation adventure starts slowing down, the scripts will be
+turned into a ruby gem and tested with rspec.
 
 ## API
 
