@@ -2,6 +2,12 @@
 
 So far, mere documentations of my findings when sniffing the Hue.
 
+Additional resources I’ve found about the Hue so far:
+
+- Parts of the Hue API: http://rsmck.co.uk/hue — looks promising, but I cannot
+  get the initial application registration to return anything else other than
+  errors about my username and device type. I’ll have to delve deeper into this.
+
 ## API
 
 1. Numbers in sequence (1234…cdef) are in base 16.
