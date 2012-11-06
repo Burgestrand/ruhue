@@ -8,6 +8,23 @@ Additional resources I’ve found about the Hue so far:
   get the initial application registration to return anything else other than
   errors about my username and device type. I’ll have to delve deeper into this.
 
+## Mailing list
+
+There is a mailing list, dedicated to discussions and questions about hacking the
+Philips Hue and related protocols.
+
+- Web interface: <https://groups.google.com/d/forum/hue-hackers>
+- E-mail address: <hue-hackers@googlegroups.com>
+
+<iframe id="forum_embed" src="javascript:void(0)" scrolling="no" frameborder="0" width="900" height="700">
+</iframe>
+<script type="text/javascript">
+  document.getElementById('forum_embed').src =
+     'https://groups.google.com/forum/embed/?place=forum/hue-hackers'
+     + '&showsearch=false&showtabs=false&hideforumtitle=true&hidesubject=true'
+     + '&parenturl=' + encodeURIComponent(window.location.href);
+</script>
+
 ## API
 
 1. Numbers in sequence (1234…cdef) are in base 16.
