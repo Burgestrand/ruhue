@@ -2,12 +2,6 @@
 
 So far, mere documentations of my findings when sniffing the Hue.
 
-Additional resources I’ve found about the Hue so far:
-
-- Parts of the Hue API: http://rsmck.co.uk/hue — looks promising, but I cannot
-  get the initial application registration to return anything else other than
-  errors about my username and device type. I’ll have to delve deeper into this.
-
 ## Mailing list
 
 There is a mailing list, dedicated to discussions and questions about hacking the
@@ -15,6 +9,23 @@ Philips Hue and related protocols.
 
 - Web interface: <https://groups.google.com/d/forum/hue-hackers>
 - E-mail address: <hue-hackers@googlegroups.com>
+
+## Resources
+Information about Hue hacking resources, and my personal experiences with them.
+
+### [Hack the Hue](http://rsmck.co.uk/hue)
+
+My initial attempts at replicating his findings proved unsuccessful. However,
+I was given an example JSON payload via e-mail, and it turns out the username
+has some kind of length restriction.
+
+- “adamgamble” is accepted.
+- “adamgam” is not accepted.
+
+### [A Day with Philips Hue](http://www.nerdblog.com/2012/10/a-day-with-philips-hue.html?showComment=1352172383498)
+
+Nothing to say here yet. Some new information in comparison to Hack the Hue,
+but the API documentation is not as complete.
 
 ## API
 
