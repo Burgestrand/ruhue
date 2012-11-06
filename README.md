@@ -180,7 +180,7 @@ clicking the link button.
 
 The username is used for subsequent API calls.
 
-### GET /api/<username>/config
+### GET /api/`username`/config
 
 Retrieve device configuration.
 
