@@ -16,9 +16,6 @@ Philips Hue and related protocols.
 - Web interface: <https://groups.google.com/d/forum/hue-hackers>
 - E-mail address: <hue-hackers@googlegroups.com>
 
-<iframe id="forum_embed" src="https://groups.google.com/forum/embed/?place=forum/hue-hackers&showsearch=false&showtabs=false&hideforumtitle=true&hidesubject=true&parenturl=https%3A%2F%2Fgithub.com%2FBurgestrand%2Fruhue" scrolling="no" frameborder="0" style="width: 100%" height="700">
-</iframe>
-
 ## API
 
 1. Numbers in sequence (1234…cdef) are in base 16.
