@@ -6,31 +6,57 @@ Bundler.require
 
 require 'socket'
 require 'timeout'
+require 'json'
 
-udp = UDPSocket.new(Socket::AF_INET)
-udp.send(<<-PACKET, 0, "239.255.255.250", 1900)
-M-SEARCH * HTTP/1.1
-HOST: 239.255.255.250:1900
-MAN: ssdp:discover
-MX: 10
-ST: ssdp:all
-PACKET
+class Hue
+  TimeoutError = Class.new(TimeoutError)
 
-hue_ip = nil
+  class << self
+    def discover(timeout = 5)
+      socket  = UDPSocket.new(Socket::AF_INET)
+      payload = []
+      payload << "M-SEARCH * HTTP/1.1"
+      payload << "HOST: 239.255.255.250:1900"
+      payload << "MAN: ssdp:discover"
+      payload << "MX: 10"
+      payload << "ST: ssdp:all"
+      socket.send(payload.join("\n"), 0, "239.255.255.250", 1900)
 
-begin
-  Timeout.timeout(5) do
-    _, _, hue_ip, _ = loop do
-      message, packet = udp.recvfrom(1024)
-      # TODO: improve this. How do we know it’s a Hue hub?
-      break packet if message =~ /description\.xml/
+      Timeout.timeout(timeout, Hue::TimeoutError) do
+        loop do
+          message, (_, _, hue_ip, _) = socket.recvfrom(1024)
+          # TODO: improve this. How do we know it’s a Hue hub?
+          return new(hue_ip) if message =~ /description\.xml/
+        end
+      end
+    rescue TimeoutError
+      nil
     end
   end
-rescue TimeoutError
-  abort "Could not find Hue bridge."
+
+  # @example
+  #   hue = Hue.new("192.168.0.21")
+  #
+  # @param [String] host address to the Hue hub.
+  def initialize(host)
+    @host = host.to_str
+  end
+
+  # @return [String] hue host
+  attr_reader :host
+
+  # @param [String] path
+  # @return [String] full url
+  def url(path)
+    "http://#{host}/#{path.to_s.sub(/\A\//, "")}"
+  end
+
+  def description
+    request = HTTPI.get(url "/description.xml")
+    Nokogiri::XML(request.body)
+  end
 end
 
-request = HTTPI.get("http://#{hue_ip}/description.xml")
-xml = Nokogiri::XML(request.body)
+hue = Hue.discover
 
 binding.pry
