@@ -51,9 +51,26 @@ class Hue
     "http://#{host}/#{path.to_s.sub(/\A\//, "")}"
   end
 
+  # GET a path of the Hue.
+  #
+  # @param [String] path
+  # @return [HTTPI::Response]
+  def get(path)
+    HTTPI.get(url(path))
+  end
+
+  # GET a path of the Hue.
+  #
+  # @param [String] path
+  # @param data json-serializable
+  # @return [HTTPI::Response]
+  def post(path, data)
+    HTTPI.post(url(path), JSON.dump(data))
+  end
+
+  # @return [Nokogiri::XML] Hue device description
   def description
-    request = HTTPI.get(url "/description.xml")
-    Nokogiri::XML(request.body)
+    Nokogiri::XML(get("/description.xml").body)
   end
 end
 
