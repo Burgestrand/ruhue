@@ -195,7 +195,7 @@ Retrieves a bunch of information about:
 
 #### Parameters
 
-- <username>: the username you used for registering your application in `POST /api`.
+- username: the username you used for registering your application in `POST /api`.
 
 #### Response
 
