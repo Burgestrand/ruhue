@@ -1,4 +1,4 @@
-Supported methods: [_TOC_].
+[[_TOC_]]
 
 ## POST /api
 
