@@ -4,12 +4,12 @@ Register an application with the Hue hub. All API calls to the Hue hub require a
 registered username as part of the URL.
 
 After application registration, application details will be remembered by the Hub.
-The Hub also keeps track of last access, as can be seen in GET [[/api/<username>/config]],
+The Hub also keeps track of last access, as can be seen in GET [[/api/:username/config]],
 part of the `whitelist` response property.
 
 If you register multiple times, even if it is with the same parameters, the Hub will
 register every successfull registration in the whitelist. You can delete registered
-users from the whitelist with `DELETE /api/username/config/whitelist/username`.
+users from the whitelist with DELETE [[/api/:username/config/whitelist/:username]].
 
 ### Parameters
 
