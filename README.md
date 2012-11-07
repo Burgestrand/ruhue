@@ -48,17 +48,33 @@ Notes about the documentation:
 2. Numbers starting with 10… are in base 10.
 3. POST data is meant to be encoded as JSON objects unless otherwise stated.
 
+Formatting rules:
+
+- Every API call has it’s own third-level header. Parameters in the URL
+  are to be called out with `inline code markup`, e.g. GET /api/`username`.
+- An optional description for the API call is written as paragraphs under
+  the API call header.
+- For GET and DELETE calls, an example JSON response must follow. Multiple
+  response examples are allowed if different responses are available.
+- For POST and PUT calls, parameters must be listed and explained under a
+  fourth-level header named "Parameters".
+- For POST and PUT calls, an example JSON response must be supplied under
+  a fourth-level header named "Responses". Multiple response examples are
+  allowed if different responses are available.
+- Each example response should be preceded by an explanatory paragraph,
+  for additional details about the call and what the response describes.
+
 ### Device discovery
 
 Device discovery is done over [SSDP][]. An example of such discovery written
-in Ruby can be found in `scripts/discovery.rb`.
+in Ruby can be found in `lib/hub.rb` in the `Hub.discovery` method.
 
 [SSDP]: http://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol
 
 ### GET /description.xml
 
 Appears to be a general description about the device. Presentation URL, as
-well as icons, are reachable via GET.
+well as icons, are reachable via GET requests.
 
 ```xml
 <?xml version="1.0"?>
@@ -116,7 +132,8 @@ the username used is like an API key.
 
 After successfully registering an application, the Hub hub will remember it. You’ll
 be able to see a list of registered applications through `GET /api/username/config`
-in the `whitelist` key. More information about that call and the return body below.
+in the `config/whitelist` key. More information about that call and the return body
+below.
 
 If you register multiple times, even if it is with the same parameters, the Hub will
 register every successfull registration in the whitelist. You can delete registered
@@ -128,6 +145,10 @@ users from the whitelist with `DELETE /api/username/config/whitelist/username`.
 - devicetype: appears to accept any string, between 1 and 40 bytes in length (inclusive).
 
 #### Responses
+
+Failure. Given an invalid username (too short), and an empty devicetype. Error
+type 7 is for invalid values, and the description contains a human readable
+string of what is wrong.
 
 ```json
 [
@@ -148,9 +169,9 @@ users from the whitelist with `DELETE /api/username/config/whitelist/username`.
 ]
 ```
 
-Failure. Given an invalid username (too short), and an empty devicetype. Error
-type 7 is for invalid values, and the description contains a human readable
-string of what is wrong.
+A successful initial post, given a username of `burgestrand` and device type of
+`macbook`.  As you can see, an error of type 101 means that the user needs to
+press the link button on the Hue hub, in order for it to allow new registrations.
 
 ```json
 [
@@ -164,9 +185,11 @@ string of what is wrong.
 ]
 ```
 
-A successful initial post, given a username of `burgestrand` and device type of
-`macbook`.  As you can see, an error of type 101 means that the user needs to
-press the link button on the Hue hub, in order for it to allow new registrations.
+Same request as above example, but after the link button has been pressed. I am
+currently unaware if there is a certain time this pairing needs to be done after
+clicking the link button.
+
+The username is used for subsequent API calls.
 
 ```json
 [
@@ -178,26 +201,12 @@ press the link button on the Hue hub, in order for it to allow new registrations
 ]
 ```
 
-Same request as above example, but after the link button has been pressed. I am
-currently unaware if there is a certain time this pairing needs to be done after
-clicking the link button.
-
-The username is used for subsequent API calls.
-
 ### GET /api/`username`
 
-Retrieves a bunch of information about:
-
-- config (same as `GET /api/username/config`)
-- lights
-- groups (not sure what this is about)
-- schedules (commands to be executed at a time)
-
-#### Parameters
-
-- username: the username you used for registering your application in `POST /api`.
-
-#### Response
+Username is the username you used for registering your application in `POST /api` call.
+This API call will return a hash, containing information about hub configuration (same
+as `GET /api/username/config`), the lights, groups (unsure of what it is about), and
+schedules (commands to be executed at a given timestamp).
 
 ```json
 {
@@ -526,9 +535,7 @@ Retrieves a bunch of information about:
 
 ### GET /api/`username`/config
 
-Retrieve device configuration.
-
-#### Responses
+Retrieves Hue hub configuration information. Can also be retrieved from `GET /api/username`.
 
 ```json
 {
@@ -568,8 +575,6 @@ Retrieve device configuration.
 ### DELETE /api/`username`/config/whitelist/`username`
 
 Removes a username from the whitelist of registered applications.
-
-#### Response
 
 ```json
 [
