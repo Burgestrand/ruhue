@@ -146,6 +146,15 @@ users from the whitelist with `DELETE /api/username/config/whitelist/username`.
 - username: numbers (0-9) and letters (a-z, A-Z), between 10 and 40 bytes in length (inclusive).
 - devicetype: appears to accept any string, between 1 and 40 bytes in length (inclusive).
 
+Acceptable example payload:
+
+```json
+{
+  "username":"burgestrand",
+  "devicetype":"any random thing"
+}
+```
+
 #### Responses
 
 Failure. Given an invalid username (too short), and an empty devicetype. Error
@@ -169,13 +178,6 @@ string of what is wrong.
     }
   }
 ]
-```
-
-To generate an API key on the bridge do a POST:
-
-### POST /api
-```json
-{"username": "yourApp", "devicetype": "yourAppName"}
 ```
 
 A successful initial post, given a username of `burgestrand` and device type of
