@@ -1,5 +1,3 @@
-[[_TOC_]]
-
 ## POST /api
 
 Register an application with the Hue hub. All API calls to the Hue hub require a
