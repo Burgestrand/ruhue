@@ -169,6 +169,13 @@ string of what is wrong.
 ]
 ```
 
+To generate an API key on the bridge do a POST:
+
+### POST /api
+```json
+{"username": "yourApp", "devicetype": "yourAppName"}
+```
+
 A successful initial post, given a username of `burgestrand` and device type of
 `macbook`.  As you can see, an error of type 101 means that the user needs to
 press the link button on the Hue hub, in order for it to allow new registrations.
@@ -572,6 +579,31 @@ Retrieves Hue hub configuration information. Can also be retrieved from `GET /ap
 }
 ```
 
+It is also possible to get parts of other information by using one of the following GET requests:
+
+### GET /api/`username`/lights/
+
+### GET /api/`username`/groups/
+
+### GET /api/`username`/schedules/
+
+As far as we can tell at the moment, the partial info GET request for lights is the only one showing different info than the whole info request.
+
+
+
+### PUT http://192.168.0.21/api/yourApp/config/
+```json
+{"name": "New Name"}
+```
+
+This will change the name option on your bridge
+
+it will return:
+```json
+{"success":{"/config/name":"New Name"}}
+```
+
+
 ### DELETE /api/`username`/config/whitelist/`username`
 
 Removes a username from the whitelist of registered applications.
@@ -582,4 +614,18 @@ Removes a username from the whitelist of registered applications.
     "success":"/config/whitelist/burgestrand deleted"
   }
 ]
+```
+
+Regarding changing settings of your attached lights; currently it looks like that it isn't possible to change multiple lights with one request.
+
+
+### PUT http://192.168.0.21/api/yourApp/lights/1/state/
+```json
+{"on": false}
+```
+This will turn a light off. It is not the same as bri: 0!!
+
+It will return:
+```json
+[{"success":{"/lights/1/state/on":false}}]
 ```
