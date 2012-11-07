@@ -437,26 +437,74 @@ Retrieves Hue hub configuration information. Can also be retrieved from `GET /ap
 
 ### GET /api/`username`/lights/
 
-### GET /api/`username`/groups/
+Retrieves a list of lights paired with the Hue hub, and their names.
 
-### GET /api/`username`/schedules/
-
-As far as we can tell at the moment, the partial info GET request for lights is the only one showing different info than the whole info request.
-
-
-
-### PUT http://192.168.0.21/api/yourApp/config/
 ```json
-{"name": "New Name"}
+{
+  "1":{
+    "name":"TV Vänster"
+  },
+  "2":{
+    "name":"TV Höger"
+  },
+  "3":{
+    "name":"Skrivbord"
+  }
+}
 ```
 
-This will change the name option on your bridge
+### GET /api/`username`/groups
 
-it will return:
+Believed to return a list of groups. Most likely similar to the `/schedules` and `/lights` call;
+returning an object of groups IDs and their names.
+
+### GET /api/`username`/schedules
+
+Retrieves a list of schedules and their names.
+
 ```json
-{"success":{"/config/name":"New Name"}}
+{
+  "1":{
+    "name":"Frukost on f 423043           "
+  },
+  "2":{
+    "name":"Frukost on 607775             "
+  }
+}
 ```
 
+### PUT /api/`username`/config/
+
+Update Hue configuration values. A list of values can be retrieved from `GET /api/username/config`.
+
+#### Parameters
+
+All parameters are optional. Only the parameters present will update values on the Hue.
+
+- name: name of the Hue hub.
+
+Acceptable example payload:
+
+```json
+{
+  "name": "New name"
+}
+```
+
+#### Responses
+
+The response will, on success, contain a list of properties that were changed, together with their new values. Here’s
+an example from changing the name.
+
+```json
+[
+  {
+    "success":{
+      "/config/name":"Lumm"
+    }
+  }
+]
+```
 
 ### DELETE /api/`username`/config/whitelist/`username`
 
@@ -470,16 +518,32 @@ Removes a username from the whitelist of registered applications.
 ]
 ```
 
-Regarding changing settings of your attached lights; currently it looks like that it isn't possible to change multiple lights with one request.
+### PUT /api/`username`/lights/`light_number`/state
 
+Change the state parameter of any of your lights.
 
-### PUT http://192.168.0.21/api/yourApp/lights/1/state/
+#### Parameters
+
+All parameters are optional.
+
+- on: true if the light should be on, false if it should be off.
+
+Acceptable example payload, turning the light off.
+
 ```json
-{"on": false}
+{
+  "on":false
+}
 ```
-This will turn a light off. It is not the same as bri: 0!!
 
-It will return:
+#### Responses
+
 ```json
-[{"success":{"/lights/1/state/on":false}}]
+[
+  {
+    "success":{
+      "/lights/1/state/on":false
+    }
+  }
+]
 ```
