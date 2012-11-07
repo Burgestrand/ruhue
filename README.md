@@ -583,3 +583,124 @@ Removes a username from the whitelist of registered applications.
   }
 ]
 ```
+
+To generate a API key on the bridge, do a POST:
+
+### POST http://192.168.0.21/api
+```json
+{"username": "yourApp", "devicetype": "yourAppName"}
+```
+
+it will return your API key (the username is your API key):
+```json
+{"success":{"username":"yourApp"}}
+```
+
+
+After receiving the API key you can do a GET request to the bridge to get all the information available:
+
+### GET http://192.168.0.21/api/yourApp/
+
+this will return something like:
+```json
+{
+    "lights": {
+        "1": {
+            "state": {
+                "on": false,
+                "bri": 5,
+                "hue": 14922,
+                "sat": 144,
+                "xy": [0.4595, 0.4105],
+                "ct": 369,
+                "alert": "none",
+                "effect": "none",
+                "colormode": "ct",
+                "reachable": true
+            },
+            "type": "Extended color light",
+            "name": "Lamp 1",
+            "modelid": "LCT001",
+            "swversion": "65003148",
+            "pointsymbol": {
+                "1": "none",
+                "2": "none",
+                "3": "none",
+                "4": "none",
+                "5": "none",
+                "6": "none",
+                "7": "none",
+                "8": "none"
+            }
+        }
+    },
+    "groups": {},
+    "config": {
+        "name": "Philips hue",
+        "mac": "{BRIDGE_MAC_ADDR}",
+        "dhcp": false,
+        "ipaddress": "192.168.0.21",
+        "netmask": "255.255.255.0",
+        "gateway": "192.168.0.21",
+        "proxyaddress": " ",
+        "proxyport": 0,
+        "UTC": "2012-11-06T19:54:47",
+        "whitelist": {
+            "yourApp": {
+                "last use date": "2012-11-06T19:54:47",
+                "create date": "2012-11-06T19:29:36",
+                "name": "yourAppName"
+            }
+        },
+        "swversion": "01003542",
+        "swupdate": {
+            "updatestate": 0,
+            "url": "",
+            "text": "",
+            "notify": false
+        },
+        "linkbutton": false,
+        "portalservices": false
+    },
+    "schedules": {}
+}
+```
+
+It is also possible to get parts of the information by using one of the following GET requests:
+
+### GET http://192.168.0.21/api/yourApp/lights/
+
+### GET http://192.168.0.21/api/yourApp/config/
+
+### GET http://192.168.0.21/api/yourApp/groups/
+
+### GET http://192.168.0.21/api/yourApp/schedules/
+
+
+To change an option on your bridge you need to do a PUT request (NOT POST):
+
+### PUT http://192.168.0.21/api/yourApp/config/
+```json
+{"name": "New Name"}
+```
+
+this will return:
+```json
+{"success":{"/config/name":"New Name"}}
+```
+
+Regarding changing settings of your attached lights; currently it looks like that it isn't possible to change 
+multiple lights with one request.
+
+
+To turn a light off, you can use the following PUT request:
+
+### PUT http://192.168.0.21/api/yourApp/lights/1/state/
+```json
+{"on": false}
+```
+
+this will return:
+```json
+[{"success":{"/lights/1/state/on":false}}]
+```
