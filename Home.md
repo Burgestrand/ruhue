@@ -1,77 +1,45 @@
-# Ruhue
+Philips Hue API reference documentation, created by reverse-engineering,
+sniffing network traffic and a lot of guessing.
 
-So far, mere documentations of my findings when sniffing the Hue.
-
-There is a mailing list, dedicated to discussions and questions about hacking the
-Philips Hue and related protocols.
+There is a mailing list, dedicated to discussions and questions about hacking
+the Philips Hue and related protocols.
 
 - Mailing list web interface: <https://groups.google.com/d/forum/hue-hackers>
 - Mailing list e-mail address: <hue-hackers@googlegroups.com>
 
-Other link resources:
-- [Hack the Hue](http://rsmck.co.uk/hue)
-- [A Day with Philips Hue](http://www.nerdblog.com/2012/10/a-day-with-philips-hue.html?showComment=1352172383498)
-
-## Console
-
-There is a console script in this repository, written by @Burgestrand as the
-documentation effort travels further. It is written in Ruby, and only supports
-Ruby 1.9.x and newer. You may start the console with the following:
-
-1. Install bundler: `gem install bundler`
-2. Install console script dependencies: `bundle install`
-3. Run the console script: `ruby console.rb`
-
-You’ll be dropped into a pry prompt (similar to IRB), with access to the following
-local variables:
-
-- hue — a Hue instance, documented in `lib/hue.rb`
-- client — a Hue::Client, documented in `lib/hue/client.rb`
-
-Once the documentation adventure starts slowing down, the scripts will be
-turned into a ruby gem and tested with rspec.
-
 ## API
 
-To use the Hue hub API you’ll first need to register an application. This is
-done with a `POST /api`, together with a payload (described further down).
-Before you do this you’ll need to press the link button on your Hue hub, so
-that the Hub will be ready to register a new application.
+Typical API workflow:
 
-After registering your application you’ll use the username chosen for all API
-calls in the future. One effect of this is that the Hue hub will track when
-the last API call by a specific device has been made.
-
-Notes about the documentation:
-
-1. Numbers in sequence (1234…cdef) are in base 16.
-2. Numbers starting with 10… are in base 10.
-3. POST data is meant to be encoded as JSON objects unless otherwise stated.
-
-Formatting rules:
-
-- Every API call has it’s own third-level header. Parameters in the URL
-  are to be called out with `inline code markup`, e.g. GET /api/`username`.
-- An optional description for the API call is written as paragraphs under
-  the API call header.
-- For GET and DELETE calls, an example JSON response must follow. Multiple
-  response examples are allowed if different responses are available.
-- For POST and PUT calls, parameters must be listed and explained under a
-  fourth-level header named "Parameters".
-- For POST and PUT calls, an example JSON response must be supplied under
-  a fourth-level header named "Responses". Multiple response examples are
-  allowed if different responses are available.
-- Each example response should be preceded by an explanatory paragraph,
-  for additional details about the call and what the response describes.
-- Example JSON payloads should be formatted with <http://jsonformatter.curiousconcept.com/>, at two
-  space indentation.
-
-### Device discovery
-
-Device discovery is done over [SSDP][]. An example of such discovery written
-in Ruby can be found in `lib/hub.rb` in the `Hub.discovery` method.
+1. Hue hub discovery via [SSDP][]. Ruhue has an example of how this discovery
+   can be performed written in Ruby and UDP sockets: [Hue.discover][].
+2. A one-time application registration to the Hue hub via a POST to [[/api]].
+   The username used in this registration is used in all subsequent API calls.
+3. Finished. You may now place any API calls against the Hue hub.
 
 [SSDP]: http://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol
+[Hue.discover]: https://github.com/Burgestrand/ruhue/blob/181072803db7f64730576373147ae15694416617/lib/hue.rb#L23
+
+## Contributions
+
+To contribute to this wiki, please clone the Ruhue repository, check out the
+wiki branch, and create your feature branch from there. Once you are done, do
+send a pull request to the Ruhue repository.
+
+This is the way it’ll have to be until GitHub supports pull requests for wikis.
+
+When doing a contribution, please respect the following formatting rules:
+
+- Every API URL has it’s own page.
+- If different verbs are supported (GET, POST, PUT, DELETE) for an URL, explanation
+  of each verb and it’s effects are written on the page for that URL.
+- Parameters in URLs are surrounded by \<brackets\>.
+- All API methods must include an example response body.
+- All API methods that allow a request body should include an example body payload.
+- All API methods that allow a request body must list available parameter names, if
+  the parameter is optional, and an explanation of it’s effect.
+- JSON data must be formatted with <http://jsonformatter.curiousconcept.com/>, at two
+  space indentation.
 
 ### GET /description.xml
 
