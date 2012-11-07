@@ -63,6 +63,8 @@ Formatting rules:
   allowed if different responses are available.
 - Each example response should be preceded by an explanatory paragraph,
   for additional details about the call and what the response describes.
+- Example JSON payloads should be formatted with <http://jsonformatter.curiousconcept.com/>, at two
+  space indentation.
 
 ### Device discovery
 
