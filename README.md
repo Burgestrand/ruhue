@@ -40,7 +40,7 @@ make your contributions by forking, branching off the wiki branch, and sending p
 
 If you want commit access to the Ruhue repository (and thus, the wiki), send me an e-mail!
 
-**Note:** I plan to move the API documentation refernce to a gh-pages branch, and use [GitHub pages][http://pages.github.com/]
+**Note:** I plan to move the API documentation refernce to a gh-pages branch, and use [GitHub pages](http://pages.github.com/)
 to host it instead. The reason for this sudden change is that the Gollum wiki used by GitHub does not allow slashes in page names.
 My hope is GitHub pages will be a better fit for describing the documentation, but if that does not work out I’ll have to
 find another way.
