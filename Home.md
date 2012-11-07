@@ -13,7 +13,7 @@ Typical API workflow:
 
 1. Hue hub discovery via [SSDP][]. Ruhue has an example of how this discovery
    can be performed written in Ruby and UDP sockets: [Hue.discover][].
-2. A one-time application registration to the Hue hub via a POST to [[/api]].
+2. A one-time application registration to the Hue hub via a POST to [[api|/api]].
    The username used in this registration is used in all subsequent API calls.
 3. Finished. You may now place any API calls against the Hue hub.
 
