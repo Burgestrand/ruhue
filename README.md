@@ -35,7 +35,7 @@ turned into a ruby gem and tested with rspec.
 ## API
 
 The API reference documentation has moved to the [hue-api][] repository. It is
-hosted on <https://burgestrand.github.com/hue-api/> using GitHub Pages. Contributions
+hosted on <http://burgestrand.github.com/hue-api/> using GitHub Pages. Contributions
 are very welcome, and if you’d like commit access to the hue-api repository, just ask!
 
 [hue-api]: https://github.com/Burgestrand/hue-api
