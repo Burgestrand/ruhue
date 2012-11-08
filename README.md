@@ -34,15 +34,8 @@ turned into a ruby gem and tested with rspec.
 
 ## API
 
-The API reference documentation has moved to the [Ruhue Wiki][], and is mirrored
-by the [wiki branch in the Ruhue repository](https://github.com/Burgestrand/ruhue/tree/wiki). Please
-make your contributions by forking, branching off the wiki branch, and sending pull requests.
+The API reference documentation has moved to the [hue-api][] repository. It is
+hosted on <https://burgestrand.github.com/hue-api/> using GitHub Pages. Contributions
+are very welcome, and if you’d like commit access to the hue-api repository, just ask!
 
-If you want commit access to the Ruhue repository (and thus, the wiki), send me an e-mail!
-
-**Note:** I plan to move the API documentation refernce to a gh-pages branch, and use [GitHub pages](http://pages.github.com/)
-to host it instead. The reason for this sudden change is that the Gollum wiki used by GitHub does not allow slashes in page names.
-My hope is GitHub pages will be a better fit for describing the documentation, but if that does not work out I’ll have to
-find another way.
-
-[Ruhue Wiki]: https://github.com/Burgestrand/ruhue/wiki
+[hue-api]: https://github.com/Burgestrand/hue-api
