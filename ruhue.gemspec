@@ -5,8 +5,7 @@ require 'ruhue/version'
 
 Gem::Specification.new do |gem|
   gem.name          = "ruhue"
-  gem.summary       = %q{TODO: Write a gem summary}
-  gem.description   = %q{TODO: Write a gem description}
+  gem.summary       = %q{API client for interacting with the Philips Hue Hub HTTP API.}
 
   gem.homepage      = "https://github.com/Burgestrand/ruhue"
   gem.authors       = ["Kim Burgestrand"]
