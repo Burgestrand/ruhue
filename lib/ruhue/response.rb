@@ -1,4 +1,4 @@
-class Hue::Response
+class Ruhue::Response
   # @param [HTTPI::Response] response
   def initialize(response)
     @response = response

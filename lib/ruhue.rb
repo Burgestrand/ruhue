@@ -7,7 +7,7 @@ require 'socket'
 require 'timeout'
 require 'json'
 
-class Hue
+class Ruhue
   TimeoutError = Class.new(TimeoutError)
   APIError = Class.new(StandardError)
 
@@ -18,7 +18,7 @@ class Hue
     # a response from the Hue hub.
     #
     # @param [Integer] timeout seconds until giving up
-    # @raise [Hue::TimeoutError] in case timeout is reached
+    # @raise [Ruhue::TimeoutError] in case timeout is reached
     # @return [Hub]
     def discover(timeout = 5)
       socket  = UDPSocket.new(Socket::AF_INET)
@@ -30,7 +30,7 @@ class Hue
       payload << "ST: ssdp:all"
       socket.send(payload.join("\n"), 0, "239.255.255.250", 1900)
 
-      Timeout.timeout(timeout, Hue::TimeoutError) do
+      Timeout.timeout(timeout, Ruhue::TimeoutError) do
         loop do
           message, (_, _, hue_ip, _) = socket.recvfrom(1024)
           # TODO: improve this. How do we know it’s a Hue hub?
@@ -41,7 +41,7 @@ class Hue
   end
 
   # @example
-  #   hue = Hue.new("192.168.0.21")
+  #   hue = Ruhue.new("192.168.0.21")
   #
   # @param [String] host address to the Hue hub.
   def initialize(host)
@@ -60,7 +60,7 @@ class Hue
   # GET a path of the Hue.
   #
   # @param [String] path
-  # @return [Hue::Response]
+  # @return [Ruhue::Response]
   def get(path)
     request(:get, path)
   end
@@ -69,7 +69,7 @@ class Hue
   #
   # @param [String] path
   # @param data json-serializable
-  # @return [Hue::Response]
+  # @return [Ruhue::Response]
   def post(path, data)
     request(:post, path, JSON.dump(data))
   end
@@ -78,7 +78,7 @@ class Hue
   #
   # @param [String] path
   # @param data json-serializable
-  # @return [Hue::Response]
+  # @return [Ruhue::Response]
   def put(path, data)
     request(:put, path, JSON.dump(data))
   end
@@ -86,7 +86,7 @@ class Hue
   # DELETE a resource.
   #
   # @param [String] path
-  # @return [Hue::Response]
+  # @return [Ruhue::Response]
   def delete(path)
     request(:delete, path)
   end
@@ -100,9 +100,9 @@ class Hue
 
   def request(method, path, *args)
     response = HTTPI.send(method, url(path), *args)
-    Hue::Response.new(response)
+    Ruhue::Response.new(response)
   end
 end
 
-require 'hue/response'
-require 'hue/client'
+require 'ruhue/response'
+require 'ruhue/client'

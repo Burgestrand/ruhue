@@ -1,4 +1,4 @@
-class Hue::Client
+class Ruhue::Client
   class << self
     def valid_username?(name)
       name =~ /\A[0-9a-zA-Z]{10,40}\z/
@@ -9,7 +9,7 @@ class Hue::Client
   # username for this, created via a POST to the
   # /api endpoint. See README for more information.
   #
-  # @param [Hue] hue
+  # @param [Ruhue] hue
   # @param [String] username
   def initialize(hue, username)
     unless self.class.valid_username?(username)
@@ -20,7 +20,7 @@ class Hue::Client
     @username = username
   end
 
-  # @return [Hue]
+  # @return [Ruhue]
   attr_reader :hue
 
   # @return [String]
@@ -29,11 +29,11 @@ class Hue::Client
   # Register a given username with the Hue hub.
   #
   # @param [String] device_type used as device name
-  # @return [Hue::Client] if successful
+  # @return [Ruhue::Client] if successful
   # @raise [APIError] if failed
   def register(device_type)
     response = hue.post("/api", username: username, devicetype: device_type)
-    tap { raise Hue::APIError, response.error_messages.join(", ") if response.error? }
+    tap { raise Ruhue::APIError, response.error_messages.join(", ") if response.error? }
   end
 
   # @return [Boolean] true if username is registered.

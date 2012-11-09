@@ -1,5 +1,7 @@
 source :rubygems
 
+gemspec
+
 gem 'pry'
-gem 'httpi'
-gem 'nokogiri'
+gem 'yard'
+gem 'redcarpet'

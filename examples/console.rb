@@ -1,11 +1,8 @@
 #!/usr/bin/env ruby
 # encoding: utf-8
-root = File.expand_path(File.dirname(__FILE__))
-$LOAD_PATH.unshift File.join(root, 'lib')
-
-require 'bundler/setup'
-require 'pry'
-require 'hue'
+require "bundler/setup"
+require "pry"
+require "ruhue"
 
 def prompt(query)
   print(query)
@@ -27,13 +24,13 @@ your Hue after a little while.
 First off, I’ll see if I can find your Hue. Give me five seconds at most.
 HELLO
 
-hue = Hue.discover
+hue = Ruhue.discover
 puts
 puts "Hue discovered at #{hue.host}!"
 puts
 
 username = prompt("Now, your username please (10-40 characters, 0-9, a-z, A-Z): ")
-client = Hue::Client.new(hue, username)
+client = Ruhue::Client.new(hue, username)
 
 puts "Hi #{client.username}!"
 
