@@ -5,3 +5,4 @@ gemspec
 gem 'pry'
 gem 'yard'
 gem 'redcarpet'
+gem 'color'
