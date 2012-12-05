@@ -3,6 +3,9 @@
 require "bundler/setup"
 require "pry"
 require "ruhue"
+require "color"
+
+HTTPI.log = false # suppress annoying warnings from HTTPI
 
 def prompt(query)
   print(query)
@@ -29,7 +32,7 @@ puts
 puts "Hue discovered at #{hue.host}!"
 puts
 
-username = prompt("Now, your username please (10-40 characters, 0-9, a-z, A-Z): ")
+username = ENV['RUHUE_USERNAME'] or  prompt("Now, your username please (10-40 characters, 0-9, a-z, A-Z): ")
 client = Ruhue::Client.new(hue, username)
 
 puts "Hi #{client.username}!"
