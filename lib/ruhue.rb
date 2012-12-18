@@ -93,7 +93,8 @@ class Ruhue
 
   # @return [Nokogiri::XML] Hue device description
   def description
-    Nokogiri::XML(get("/description.xml").body)
+    response = HTTPI.send("get", url("/description.xml"))
+    Nokogiri::XML(response.body) { |config| config.nonet }
   end
 
   protected
