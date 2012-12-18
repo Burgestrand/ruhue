@@ -36,7 +36,7 @@ class Ruhue
 	Timeout.timeout(timeout, Ruhue::TimeoutError) do
 	  loop do
 	    message, (_, _, hue_ip, _) = socket.recvfrom(2048)
-	    # TODO: Use ST: uuid:2f402f80-da50-11e1-9b23-[serial] ?
+	    # TODO: Use ST: uuid:xxxxxxxx-xxxx-11e1-9b23-[serial] ?
 	    if message =~ /description.xml/
 	      hue = new(hue_ip)
 	      desc = hue.description
