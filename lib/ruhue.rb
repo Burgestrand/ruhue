@@ -14,8 +14,8 @@ class Ruhue
   class << self
     # Search for a Hue hub, with configurable timeout.
     #
-    # This sends out a broadcast packet with UDP, and waits for
-    # a response from the Hue hub.
+    # This sends out a broadcast SSDP packet with UDP, and waits
+    # for a response from the Hue hub.
     #
     # @param [Integer] timeout seconds until giving up
     # @raise [Ruhue::TimeoutError] in case timeout is reached
@@ -30,12 +30,20 @@ class Ruhue
       payload << "ST: ssdp:all"
       socket.send(payload.join("\n"), 0, "239.255.255.250", 1900)
 
-      Timeout.timeout(timeout, Ruhue::TimeoutError) do
-        loop do
-          message, (_, _, hue_ip, _) = socket.recvfrom(1024)
-          # TODO: improve this. How do we know it’s a Hue hub?
-          return new(hue_ip) if message =~ /description\.xml/
-        end
+      # TODO: Support multiple hubs by using SN from UUID or description.xml
+      # TODO: Parse HTTP response for LOCATION: header
+      begin
+	Timeout.timeout(timeout, Ruhue::TimeoutError) do
+	  loop do
+	    message, (_, _, hue_ip, _) = socket.recvfrom(2048)
+	    # TODO: Use ST: uuid:2f402f80-da50-11e1-9b23-[serial] ?
+	    if message =~ /description.xml/
+	      hue = new(hue_ip)
+	      desc = hue.description
+	      return hue if desc.css('modelName').text =~ /Philips hue/i
+	    end
+	  end
+	end
       end
     end
   end
