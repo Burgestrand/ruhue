@@ -1,4 +1,4 @@
-# Ruhue
+# Ruhue (NOT ACTIVELY MAINTAINED)
 
 So far, mere documentations of my findings when sniffing the Hue.
 
